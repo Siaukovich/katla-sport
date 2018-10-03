@@ -10,6 +10,7 @@ namespace KatlaSport.DataAccess.ProductCatalogue
             ToTable("product_categories");
             HasKey(i => i.Id);
             HasIndex(i => i.Code);
+
             Property(i => i.Id).HasColumnName("category_id").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(i => i.Name).HasColumnName("category_name").HasMaxLength(60).IsRequired();
             Property(i => i.Code).HasColumnName("category_code").HasMaxLength(5).IsRequired();
