@@ -90,7 +90,10 @@ namespace KatlaSport.DataAccess.Migrations
                     IsDeleted = false,
                     CreatedBy = creatorId,
                     LastUpdatedBy = creatorId,
-                    LastUpdated = timestamp
+                    LastUpdated = timestamp,
+                    Price = 5m,
+                    ManufacturerCode = "ManCode1",
+                    Description = "Kyak Men Shoes description."
                 },
                 new CatalogueProduct
                 {
@@ -101,7 +104,9 @@ namespace KatlaSport.DataAccess.Migrations
                     IsDeleted = false,
                     CreatedBy = creatorId,
                     LastUpdatedBy = creatorId,
-                    LastUpdated = timestamp
+                    LastUpdated = timestamp,
+                    Price = 15m,
+                    ManufacturerCode = "ManCode2"
                 },
                 new CatalogueProduct
                 {
@@ -112,7 +117,10 @@ namespace KatlaSport.DataAccess.Migrations
                     IsDeleted = false,
                     CreatedBy = creatorId,
                     LastUpdatedBy = creatorId,
-                    LastUpdated = timestamp
+                    LastUpdated = timestamp,
+                    Price = 10m,
+                    ManufacturerCode = "ManCode3",
+                    Description = "Abibas T-Shirt description."
                 },
                 new CatalogueProduct
                 {
@@ -123,7 +131,9 @@ namespace KatlaSport.DataAccess.Migrations
                     IsDeleted = false,
                     CreatedBy = creatorId,
                     LastUpdatedBy = creatorId,
-                    LastUpdated = timestamp
+                    LastUpdated = timestamp,
+                    Price = 20m,
+                    ManufacturerCode = "ManCode4"
                 });
 
             context.StoreHives.AddOrUpdate(
