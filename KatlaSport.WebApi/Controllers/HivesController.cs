@@ -37,6 +37,57 @@ namespace KatlaSport.WebApi.Controllers
             return Ok(hives);
         }
 
+        [HttpPost]
+        [Route("")]
+        [SwaggerResponse(HttpStatusCode.Created)]
+        [SwaggerResponse(HttpStatusCode.BadRequest)]
+        [SwaggerResponse(HttpStatusCode.Conflict)]
+        [SwaggerResponse(HttpStatusCode.InternalServerError)]
+        public async Task<IHttpActionResult> AddHive([FromBody] UpdateHiveRequest hiveRequest)
+        {
+            if (!this.ValidRequest(hiveRequest, out string errorMessage))
+            {
+                return BadRequest(errorMessage);
+            }
+
+            var hive = await _hiveService.CreateHiveAsync(hiveRequest);
+            var hiveLocation = $"api/hives/{hive.Id}";
+
+            return Created(hiveLocation, hive);
+        }
+
+        [HttpPut]
+        [Route("{hiveId:int:min(1)}")]
+        [SwaggerResponse(HttpStatusCode.NoContent, Description = "Updates existing hive data.")]
+        [SwaggerResponse(HttpStatusCode.BadRequest)]
+        [SwaggerResponse(HttpStatusCode.Conflict)]
+        [SwaggerResponse(HttpStatusCode.NotFound)]
+        [SwaggerResponse(HttpStatusCode.InternalServerError)]
+        public async Task<IHttpActionResult> UpdateHive([FromUri] int hiveId, [FromBody] UpdateHiveRequest hiveRequest)
+        {
+            if (!this.ValidRequest(hiveRequest, out string errorMessage))
+            {
+                return BadRequest(errorMessage);
+            }
+
+            var hive = await this._hiveService.UpdateHiveAsync(hiveId, hiveRequest);
+
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.NoContent, hive));
+        }
+
+        [HttpDelete]
+        [Route("{hiveId:int:min(1)}")]
+        [SwaggerResponse(HttpStatusCode.NoContent, Description = "Deletes existing hive.")]
+        [SwaggerResponse(HttpStatusCode.BadRequest)]
+        [SwaggerResponse(HttpStatusCode.Conflict)]
+        [SwaggerResponse(HttpStatusCode.NotFound)]
+        [SwaggerResponse(HttpStatusCode.InternalServerError)]
+        public async Task<IHttpActionResult> DeleteHive([FromUri] int hiveId)
+        {
+            await this._hiveService.DeleteHiveAsync(hiveId);
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.NoContent));
+        }
+
         [HttpGet]
         [Route("{hiveId:int:min(1)}")]
         [SwaggerResponse(HttpStatusCode.OK, Description = "Returns a hive.", Type = typeof(Hive))]
@@ -68,6 +119,29 @@ namespace KatlaSport.WebApi.Controllers
         {
             await _hiveService.SetStatusAsync(hiveId, deletedStatus);
             return ResponseMessage(Request.CreateResponse(HttpStatusCode.NoContent));
+        }
+
+        private bool ValidRequest(UpdateHiveRequest hiveRequest, out string errorMessage)
+        {
+            errorMessage = string.Empty;
+
+            if (string.IsNullOrEmpty(hiveRequest.Address))
+            {
+                errorMessage += "Invalid Address. ";
+            }
+
+            if (string.IsNullOrEmpty(hiveRequest.Code))
+            {
+                errorMessage += "Invalid Code. ";
+            }
+
+            if (string.IsNullOrEmpty(hiveRequest.Name))
+            {
+                errorMessage += "Invalid Name. ";
+            }
+
+            // Request is valid if errorMessage is empty.
+            return errorMessage == string.Empty;
         }
     }
 }
