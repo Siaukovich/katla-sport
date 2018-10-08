@@ -1,3 +1,36 @@
-<p>
-  hive-section-form works!
-</p>
+<div class="container">
+  <h2>Hive Section Editor</h2>
+  <form (ngSubmit)="onSubmit()" #hiveForm="ngForm">
+    <div class="form-group" *ngIf='existed'>
+      <label for="idLabel">ID</label>
+      <input type="text" class="form-control" id="id" aria-describedby="idLabel" [(ngModel)]="hiveSection.id" name="id" #id="ngModel"
+        readonly>
+    </div>
+      <div class="form-group">
+        <label for="name" id="nameLabel">Hive Section Name</label>
+        <input type="text" class="form-control mb-4" id="name" aria-describedby="nameLabel" minlength="4" maxlength="60" required [(ngModel)]="hiveSection.name"
+          name="name" #name="ngModel">
+
+        <label for="name" id="nameLabel">Hive Section Code</label>
+        <input type="text" class="form-control mb-4" id="code" aria-describedby="codeLabel" minlength="5" maxlength="5" required [(ngModel)]="hiveSection.code"
+        name="code" #name="ngModel">
+
+        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+          <div *ngIf="name.errors.required">Hive Section Name is required.</div>
+          <div *ngIf="name.errors.minlength">Hive Section Name must be at least 4 characters long.</div>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-primary mr-3" (click)="onCancel()" >Back</button>
+      <button type="button" class="btn btn-primary mr-3" (click)="onSubmit()">Save</button>
+      <button type="button" class="btn btn-danger mr-3"  (click)="onDelete()" *ngIf="!hiveSection.isDeleted && existed">Delete</button>
+      <button type="button" class="btn btn-primary mr-3" (click)="onUndelete()" *ngIf="hiveSection.isDeleted">Undelete</button>
+      <button type="button" class="btn btn-danger mr-3"  (click)="onPurge()" *ngIf="hiveSection.isDeleted">Purge</button>
+
+      <div class="form-group" *ngIf='existed'>
+        <label class="label mt-3" for="lastUpdated" id="lastUpdatedLabel">Last Update</label>
+        <input type="text" class="form-control" id="lastUpdated" aria-describedby="lastUpdatedLabel" required [(ngModel)]="hiveSection.lastUpdated"
+          name="lastUpdated" #lastUpdated="ngModel" readonly>
+      </div>
+  </form>
+</div>
