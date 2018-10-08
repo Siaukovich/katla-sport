@@ -20,6 +20,10 @@ export class HiveFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.subscribeRoute();
+  }
+
+  subscribeRoute() {
     this.route.params.subscribe(p => {
       if (p['id'] === undefined) return;
       this.hiveService.getHive(p['id']).subscribe(h => this.hive = h);
@@ -36,14 +40,22 @@ export class HiveFormComponent implements OnInit {
   }
   
   onSubmit() {
+    if (this.existed) {
+      this.hiveService.updateHive(this.hive).subscribe(h => this.navigateToHives());
+    } else {
+      this.hiveService.addHive(this.hive).subscribe(h => this.navigateToHives());
+    }
   }
 
   onDelete() {
+    this.hiveService.setHiveStatus(this.hive.id, true).subscribe(h => this.subscribeRoute());
   }
 
   onUndelete() {
+    this.hiveService.setHiveStatus(this.hive.id, false).subscribe(h => this.subscribeRoute());
   }
 
   onPurge() {
+    this.hiveService.deleteHive(this.hive.id).subscribe(h => this.navigateToHives());
   }
 }
