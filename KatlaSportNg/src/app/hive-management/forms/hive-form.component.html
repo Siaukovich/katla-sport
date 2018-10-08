@@ -24,17 +24,17 @@
           <div *ngIf="name.errors.minlength">Hive Name must be at least 4 characters long.</div>
         </div>
       </div>
-      <div>
-        <button type="button" class="btn btn-primary mr-3" (click)="onCancel()" >Back</button>
-        <button type="button" class="btn btn-primary mr-3" (click)="onSubmit()">Save</button>
-        <button type="button" class="btn btn-danger mr-3"  (click)="onDelete()" *ngIf="!hive.isDeleted">Delete</button>
-        <button type="button" class="btn btn-primary mr-3" (click)="onUndelete()" *ngIf="hive.isDeleted">Undelete</button>
-        <button type="button" class="btn btn-danger mr-3"  (click)="onPurge()" *ngIf="hive.isDeleted">Purge</button>
+
+      <button type="button" class="btn btn-primary mr-3" (click)="onCancel()" >Back</button>
+      <button type="button" class="btn btn-primary mr-3" (click)="onSubmit()">Save</button>
+      <button type="button" class="btn btn-danger mr-3"  (click)="onDelete()" *ngIf="!hive.isDeleted && existed">Delete</button>
+      <button type="button" class="btn btn-primary mr-3" (click)="onUndelete()" *ngIf="hive.isDeleted">Undelete</button>
+      <button type="button" class="btn btn-danger mr-3"  (click)="onPurge()" *ngIf="hive.isDeleted">Purge</button>
+
+      <div class="form-group" *ngIf='existed'>
+        <label class="label mt-3" for="lastUpdated" id="lastUpdatedLabel">Last Update</label>
+        <input type="text" class="form-control" id="lastUpdated" aria-describedby="lastUpdatedLabel" required [(ngModel)]="hive.lastUpdated"
+          name="lastUpdated" #lastUpdated="ngModel" readonly>
       </div>
-    <div class="form-group" *ngIf='existed'>
-      <label class="label mt-3" for="lastUpdated" id="lastUpdatedLabel">Last Update</label>
-      <input type="text" class="form-control" id="lastUpdated" aria-describedby="lastUpdatedLabel" required [(ngModel)]="hive.lastUpdated"
-        name="lastUpdated" #lastUpdated="ngModel" readonly>
-    </div>
   </form>
 </div>
