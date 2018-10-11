@@ -45,7 +45,7 @@ namespace KatlaSport.WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
-                this.BadRequest(ModelState);
+                return this.BadRequest(ModelState);
             }
 
             var hiveSection = await this._hiveSectionService.CreateHiveSectionAsync(hiveSectionRequest);
